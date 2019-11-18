@@ -144,6 +144,7 @@ void linkBin(char* buf, BYTE* stub, size_t stubSize, BYTE* compressedImgData, si
 	memcpy((PVOID)((UINT_PTR)buf + sectionArr[3].PointerToRawData), currPackingRecord, sizeof(packingRecord));
 
 	//------------------------- Fix SizeOfImage for Application Loader -------------------------
+	getNtHdr(buf)->OptionalHeader.DllCharacteristics &= ~(IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE);
 	getNtHdr(buf)->FileHeader.NumberOfSections = 4;
 	getNtHdr(buf)->OptionalHeader.SizeOfImage = \
 		sectionArr[getNtHdr(buf)->FileHeader.NumberOfSections - 1].VirtualAddress + \
